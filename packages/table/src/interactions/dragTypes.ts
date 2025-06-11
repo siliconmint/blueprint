@@ -132,5 +132,5 @@ export interface DraggableChildrenProps {
      *  }
      *  ```
      */
-    targetRef?: React.RefObject<HTMLElement>;
+    targetRef?: React.RefObject<HTMLElement | null>;
 }

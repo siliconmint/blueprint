@@ -57,7 +57,7 @@ export interface ResizeSensorProps {
      * If you attach a `ref` to the child yourself when rendering it, you must pass the
      * same value here (otherwise, ResizeSensor won't be able to attach its own).
      */
-    targetRef?: React.RefObject<HTMLElement>;
+    targetRef?: React.RefObject<HTMLElement | null>;
 }
 
 /**

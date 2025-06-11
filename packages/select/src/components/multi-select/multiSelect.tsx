@@ -168,12 +168,12 @@ export class MultiSelect<T> extends AbstractPureComponent<MultiSelectProps<T>, M
 
     private refHandlers: {
         input: React.RefCallback<HTMLInputElement>;
-        popover: React.RefObject<Popover>;
+        popover: React.RefObject<Popover | null>;
         queryList: React.RefCallback<QueryList<T>>;
     } = {
         input: refHandler(this, "input", this.props.tagInputProps?.inputRef),
         popover: React.createRef(),
-        queryList: (ref: QueryList<T> | null) => (this.queryList = ref),
+        queryList: (ref: QueryList<T> | null) => {this.queryList = ref},
     };
 
     public componentDidUpdate(prevProps: MultiSelectProps<T>) {

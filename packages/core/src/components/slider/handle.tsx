@@ -56,7 +56,7 @@ export class Handle extends AbstractPureComponent<InternalHandleProps, HandleSta
     private handleElement: HTMLElement | null = null;
 
     private refHandlers = {
-        handle: (el: HTMLSpanElement) => (this.handleElement = el),
+        handle: (el: HTMLSpanElement) => {this.handleElement = el},
     };
 
     public componentDidMount() {

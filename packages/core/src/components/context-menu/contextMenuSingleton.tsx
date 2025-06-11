@@ -15,7 +15,7 @@
  */
 
 import * as React from "react";
-import * as ReactDOM from "react-dom";
+import { createRoot } from 'react-dom/client';
 
 import { Classes } from "../../common";
 import type { DOMMountOptions } from "../../common/utils/mountOptions";
@@ -115,17 +115,23 @@ function maybeMigrateShowContextOptions(
         container: options.container ?? document.body,
         render: (element, container) => {
             // TODO(React 18): Replace deprecated ReactDOM methods. See: https://github.com/palantir/blueprint/issues/7165
-            // eslint-disable-next-line @typescript-eslint/no-deprecated
-            const render = options.domRenderer ?? ReactDOM.render;
-            // eslint-disable-next-line @typescript-eslint/no-deprecated
-            render(element, container);
+            if (options.domRenderer) {
+                options.domRenderer(element, container);
 
-            return () => {
-                // TODO(React 18): Replace deprecated ReactDOM methods. See: https://github.com/palantir/blueprint/issues/7165
-                // eslint-disable-next-line @typescript-eslint/no-deprecated
-                const unmount = options.domUnmounter ?? ReactDOM.unmountComponentAtNode;
-                unmount(container);
-            };
+                return () => {
+                    if (options.domUnmounter) {
+                        options.domUnmounter(container);
+                    }
+                };
+            } else {
+                const root = createRoot(container);
+
+                root.render(element);
+
+                return () => {
+                    root.unmount();
+                };
+            }
         },
     };
 }
@@ -141,7 +147,7 @@ function maybeMigrateShowContextOptions(
 export function hideContextMenu(options: DOMMountOptions<ContextMenuPopoverProps> = {}) {
     // TODO(React 18): Replace deprecated ReactDOM methods. See: https://github.com/palantir/blueprint/issues/7165
     // eslint-disable-next-line @typescript-eslint/no-deprecated
-    const { domUnmounter = ReactDOM.unmountComponentAtNode } = options;
+    const { domUnmounter } = options;
     if (contextMenuState != null) {
         if (domUnmounter != null) {
             domUnmounter(contextMenuState.element);

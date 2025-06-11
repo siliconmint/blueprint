@@ -455,7 +455,7 @@ export class Header extends React.Component<InternalHeaderProps, HeaderState> {
         index: number,
         children: React.JSX.Element,
         disabled: boolean | ((event: MouseEvent) => boolean),
-        targetRef: React.RefObject<HTMLElement>,
+        targetRef: React.RefObject<HTMLElement | null>,
     ) {
         return (
             <DragReorderable
@@ -534,7 +534,7 @@ export class Header extends React.Component<InternalHeaderProps, HeaderState> {
     };
 }
 
-function getOrCreateRef<T>(refMap: Map<number, React.RefObject<T>>, index: number): React.RefObject<T> {
+function getOrCreateRef<T>(refMap: Map<number, React.RefObject<T | null>>, index: number): React.RefObject<T | null> {
     if (refMap.has(index)) {
         return refMap.get(index)!;
     } else {

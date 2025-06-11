@@ -160,7 +160,7 @@ export class Tabs extends AbstractPureComponent<TabsProps, TabsState> {
     private tablistElement: HTMLDivElement | null = null;
 
     private refHandlers = {
-        tablist: (tabElement: HTMLDivElement) => (this.tablistElement = tabElement),
+        tablist: (tabElement: HTMLDivElement) => {this.tablistElement = tabElement},
     };
 
     constructor(props: TabsProps) {

@@ -2,6 +2,8 @@
 
 # [Blueprint](http://blueprintjs.com/) [![CircleCI](https://circleci.com/gh/palantir/blueprint/tree/develop.svg?style=svg)](https://circleci.com/gh/palantir/workflows/blueprint)
 
+# Fork with React 19 support for Mintdata Platform
+
 Blueprint is a React-based UI toolkit for the web.
 
 It is optimized for building complex, data-dense web interfaces for _desktop applications_ which run in modern browsers.

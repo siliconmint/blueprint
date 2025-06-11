@@ -52,7 +52,7 @@ export interface ItemListRendererProps<T> {
      * A ref handler that should be attached to the parent HTML element of the menu items.
      * This is required for the active item to scroll into view automatically.
      */
-    itemsParentRef: React.Ref<HTMLUListElement>;
+    itemsParentRef: React.Ref<HTMLUListElement | null>;
 
     /**
      * Props to apply to the `Menu` created within the `itemListRenderer`

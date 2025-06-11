@@ -179,7 +179,7 @@ export class TruncatedFormat extends React.PureComponent<TruncatedFormatProps, T
 
     private contentDiv: HTMLDivElement | null | undefined;
 
-    private handleContentDivRef = (ref: HTMLDivElement | null) => (this.contentDiv = ref);
+    private handleContentDivRef = (ref: HTMLDivElement | null) => {this.contentDiv = ref};
 
     public componentDidMount() {
         this.setTruncationState();

@@ -147,7 +147,7 @@ export class Suggest<T> extends AbstractPureComponent<SuggestProps<T>, SuggestSt
         this.props.inputProps?.inputRef,
     );
 
-    private handleQueryListRef = (ref: QueryList<T> | null) => (this.queryList = ref);
+    private handleQueryListRef = (ref: QueryList<T> | null) => {this.queryList = ref};
 
     private listboxId = Utils.uniqueId("listbox");
 

@@ -51,7 +51,7 @@ export interface Overlay2Props extends OverlayProps, React.RefAttributes<Overlay
      *
      * Mutually exclusive with the `childRefs` prop. This prop is a shorthand for `childRefs={{ [key: string]: ref }}`.
      */
-    childRef?: React.RefObject<HTMLElement>;
+    childRef?: React.RefObject<HTMLElement | null>;
 
     /**
      * If you provide a _multiple child elements_ to Overlay2, you must enumerate and generate a
@@ -61,7 +61,7 @@ export interface Overlay2Props extends OverlayProps, React.RefAttributes<Overlay
      * Mutually exclusive with the `childRef` prop. If you only provide a single child element, consider using
      * `childRef` instead.
      */
-    childRefs?: Record<string, React.RefObject<HTMLElement>>;
+    childRefs?: Record<string, React.RefObject<HTMLElement | null>>;
 }
 
 export const OVERLAY2_DEFAULT_PROPS = {
@@ -86,19 +86,19 @@ export const OVERLAY2_DEFAULT_PROPS = {
  */
 export const Overlay2 = React.forwardRef<OverlayInstance, Overlay2Props>((props, forwardedRef) => {
     const {
-        autoFocus,
+        autoFocus = OVERLAY2_DEFAULT_PROPS.autoFocus,
         backdropClassName,
-        backdropProps,
-        canEscapeKeyClose,
-        canOutsideClickClose,
+        backdropProps = OVERLAY2_DEFAULT_PROPS.backdropProps as React.HTMLProps<HTMLDivElement>,
+        canEscapeKeyClose = OVERLAY2_DEFAULT_PROPS.canEscapeKeyClose,
+        canOutsideClickClose = OVERLAY2_DEFAULT_PROPS.canOutsideClickClose,
         childRef,
         childRefs,
         children,
         className,
-        enforceFocus,
-        hasBackdrop,
-        isOpen,
-        lazy,
+        enforceFocus = OVERLAY2_DEFAULT_PROPS.enforceFocus,
+        hasBackdrop = OVERLAY2_DEFAULT_PROPS.hasBackdrop,
+        isOpen = OVERLAY2_DEFAULT_PROPS.isOpen,
+        lazy = OVERLAY2_DEFAULT_PROPS,
         onClose,
         onClosed,
         onClosing,
@@ -106,10 +106,10 @@ export const Overlay2 = React.forwardRef<OverlayInstance, Overlay2Props>((props,
         onOpening,
         portalClassName,
         portalContainer,
-        shouldReturnFocusOnClose,
-        transitionDuration,
-        transitionName,
-        usePortal,
+        shouldReturnFocusOnClose = OVERLAY2_DEFAULT_PROPS.shouldReturnFocusOnClose,
+        transitionDuration = OVERLAY2_DEFAULT_PROPS.transitionDuration,
+        transitionName = OVERLAY2_DEFAULT_PROPS.transitionName,
+        usePortal = OVERLAY2_DEFAULT_PROPS.usePortal,
     } = props;
 
     useOverlay2Validation(props);
@@ -401,7 +401,7 @@ export const Overlay2 = React.forwardRef<OverlayInstance, Overlay2Props>((props,
 
             // decorate the child with a few injected props
             const userChildRef = getUserChildRef(child);
-            const childProps = isReactElement(child) ? child.props : {};
+            const childProps: any = isReactElement(child) ? child.props : {};
             // if the child is a string, number, or fragment, it will be wrapped in a <span> element
             const decoratedChild = ensureElement(child, "span", {
                 className: classNames(childProps.className, Classes.OVERLAY_CONTENT),
@@ -655,8 +655,6 @@ export const Overlay2 = React.forwardRef<OverlayInstance, Overlay2Props>((props,
         return transitionGroup;
     }
 });
-// eslint-disable-next-line @typescript-eslint/no-deprecated
-Overlay2.defaultProps = OVERLAY2_DEFAULT_PROPS;
 Overlay2.displayName = `${DISPLAYNAME_PREFIX}.Overlay2`;
 
 function useOverlay2Validation({ childRef, childRefs, children }: Overlay2Props) {
@@ -689,7 +687,7 @@ function useOverlay2ID(): string {
 // we are using the `nodeRef` prop, so we must inject it dynamically.
 function getLifecycleCallbackWithChildRef(
     callback: ((node: HTMLElement) => void) | undefined,
-    childRef: React.RefObject<HTMLElement> | undefined,
+    childRef: React.RefObject<HTMLElement | null> | undefined,
 ) {
     return () => {
         if (childRef?.current != null) {

@@ -218,9 +218,9 @@ export class Overlay extends AbstractPureComponent<OverlayProps, OverlayState> {
         const decoratedChild =
             typeof child === "object" ? (
                 React.cloneElement(child as React.ReactElement, {
-                    className: classNames((child as React.ReactElement).props.className, Classes.OVERLAY_CONTENT),
+                    className: classNames((child as any).props.className, Classes.OVERLAY_CONTENT),
                     tabIndex,
-                })
+                } as any)
             ) : (
                 <span className={Classes.OVERLAY_CONTENT} tabIndex={tabIndex}>
                     {child}

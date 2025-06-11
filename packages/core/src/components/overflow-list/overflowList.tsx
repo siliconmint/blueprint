@@ -209,7 +209,7 @@ export class OverflowList<T> extends React.Component<OverflowListProps<T>, Overf
             collapseFrom === Boundary.START ? overflow : null,
             this.state.visible.map(visibleItemRenderer),
             collapseFrom === Boundary.END ? overflow : null,
-            <div className={Classes.OVERFLOW_LIST_SPACER} ref={ref => (this.spacer = ref)} />,
+            <div className={Classes.OVERFLOW_LIST_SPACER} ref={ref => {this.spacer = ref}} />,
         );
 
         return (

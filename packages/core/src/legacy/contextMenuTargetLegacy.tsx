@@ -22,7 +22,6 @@
 /* eslint-disable @typescript-eslint/no-deprecated */
 
 import * as React from "react";
-import * as ReactDOM from "react-dom";
 
 import { isDarkTheme, isFunction } from "../common/utils";
 
@@ -52,6 +51,8 @@ export function ContextMenuTargetLegacy<T extends Constructor<ContextMenuTargetL
     return class ContextMenuTargetClass extends WrappedComponent {
         public static displayName = `ContextMenuTarget(${getDisplayName(WrappedComponent)})`;
 
+        public targetRef: HTMLElement | null = null;
+
         public render() {
             const element = super.render();
 
@@ -76,7 +77,7 @@ export function ContextMenuTargetLegacy<T extends Constructor<ContextMenuTargetL
                     if (menu != null) {
                         // HACKHACK: see https://github.com/palantir/blueprint/issues/3979
                         /* eslint-disable-next-line react/no-find-dom-node */
-                        const darkTheme = isDarkTheme(ReactDOM.findDOMNode(this));
+                        const darkTheme = isDarkTheme(this.targetRef);
                         e.preventDefault();
                         showLegacyContextMenu(
                             menu,
@@ -90,7 +91,21 @@ export function ContextMenuTargetLegacy<T extends Constructor<ContextMenuTargetL
                 oldOnContextMenu?.(e);
             };
 
-            return React.cloneElement(element, { onContextMenu });
+            return React.cloneElement(
+                element,
+                {
+                    onContextMenu,
+                    ref: (ref: HTMLElement | null) => {
+                        this.targetRef = ref;
+
+                        if (typeof element.props.ref === "function") {
+                            element.props.ref(ref);
+                        } else if (element.props.ref) {
+                            element.props.ref.current = ref;
+                        }
+                    }
+                }
+            );
         }
     };
 }

@@ -53,7 +53,7 @@ export const NavMenu: React.FunctionComponent<NavMenuProps> = props => {
         });
         return (
             <li key={section.route}>
-                {item}
+                {item as any}
                 {isPageNode(section) ? <NavMenu {...props} level={section.level} items={section.children} /> : null}
             </li>
         );

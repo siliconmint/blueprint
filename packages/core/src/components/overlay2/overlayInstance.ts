@@ -27,7 +27,7 @@ export interface OverlayInstance {
     bringFocusInsideOverlay?: () => void;
 
     /** Reference to the overlay container element which may or may not be in a Portal. */
-    containerElement: React.RefObject<HTMLDivElement>;
+    containerElement: React.RefObject<HTMLDivElement | null>;
 
     /**
      * Document "focus" event handler which needs to be attached & detached appropriately.

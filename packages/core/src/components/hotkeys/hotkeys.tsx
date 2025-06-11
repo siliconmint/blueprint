@@ -58,7 +58,7 @@ export class Hotkeys extends AbstractPureComponent<HotkeysProps> {
         }
 
         const hotkeys = React.Children.map(
-            this.props.children,
+            this.props.children as any,
             (child: React.ReactElement<HotkeyProps>) => child.props,
         );
 

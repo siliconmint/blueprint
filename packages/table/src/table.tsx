@@ -232,12 +232,12 @@ export class Table extends AbstractComponent<TableProps, TableState, TableSnapsh
     private resizeSensorDetach?: () => void;
 
     private refHandlers = {
-        cellContainer: (ref: HTMLElement | null) => (this.cellContainerElement = ref),
-        columnHeader: (ref: HTMLElement | null) => (this.columnHeaderElement = ref),
-        quadrantStack: (ref: TableQuadrantStack) => (this.quadrantStackInstance = ref),
-        rootTable: (ref: HTMLElement | null) => (this.rootTableElement = ref),
-        rowHeader: (ref: HTMLElement | null) => (this.rowHeaderElement = ref),
-        scrollContainer: (ref: HTMLElement | null) => (this.scrollContainerElement = ref),
+        cellContainer: (ref: HTMLElement | null) => {this.cellContainerElement = ref},
+        columnHeader: (ref: HTMLElement | null) => {this.columnHeaderElement = ref},
+        quadrantStack: (ref: TableQuadrantStack) => {this.quadrantStackInstance = ref},
+        rootTable: (ref: HTMLElement | null) => {this.rootTableElement = ref},
+        rowHeader: (ref: HTMLElement | null) => {this.rowHeaderElement = ref},
+        scrollContainer: (ref: HTMLElement | null) => {this.scrollContainerElement = ref},
     };
 
     private cellContainerElement?: HTMLElement | null;

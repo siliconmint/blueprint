@@ -75,7 +75,7 @@ export interface HeaderCellProps extends Props {
     /**
      * Required for Draggable to attach a DOM ref.
      */
-    targetRef?: React.RefObject<HTMLElement>;
+    targetRef?: React.RefObject<HTMLElement | null>;
 }
 
 export interface InternalHeaderCellProps extends HeaderCellProps {

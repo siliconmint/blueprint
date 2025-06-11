@@ -23,7 +23,7 @@
 
 import classNames from "classnames";
 import * as React from "react";
-import * as ReactDOM from "react-dom";
+import { createRoot, type Root } from "react-dom/client";
 
 import { AbstractPureComponent, Classes } from "../common";
 import type { OverlayLifecycleProps } from "../components/overlay/overlayProps";
@@ -128,6 +128,7 @@ class ContextMenuLegacy extends AbstractPureComponent<ContextMenuLegacyProps, Co
 
 let contextMenuElement: HTMLElement | undefined;
 let contextMenu: ContextMenuLegacy | undefined;
+let contextMenuRoot: Root | undefined;
 
 /**
  * Show the given menu element at the given offset from the top-left corner of the viewport.
@@ -141,10 +142,17 @@ export function show(menu: React.JSX.Element, offset: Offset, onClose?: () => vo
         contextMenuElement = document.createElement("div");
         contextMenuElement.classList.add(Classes.CONTEXT_MENU);
         document.body.appendChild(contextMenuElement);
-        contextMenu = ReactDOM.render<ContextMenuLegacyProps>(
-            <ContextMenuLegacy onClosed={remove} />,
-            contextMenuElement,
-        ) as ContextMenuLegacy;
+
+        contextMenuRoot = createRoot(contextMenuElement);
+
+        contextMenuRoot.render(
+            <ContextMenuLegacy
+                onClosed={remove}
+                ref={ref => {
+                    contextMenu = ref || undefined
+                }}
+            />
+        );
     }
 
     contextMenu!.show(menu, offset, onClose, isDarkTheme);
@@ -162,9 +170,10 @@ export function isOpen() {
 
 function remove() {
     if (contextMenuElement != null) {
-        ReactDOM.unmountComponentAtNode(contextMenuElement);
+        contextMenuRoot?.unmount();
         contextMenuElement.remove();
         contextMenuElement = undefined;
         contextMenu = undefined;
+        contextMenuRoot = undefined;
     }
 }

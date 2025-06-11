@@ -700,7 +700,7 @@ export const DateInput: React.FC<DateInputProps> = React.memo(function DateInput
     );
 });
 DateInput.displayName = `${DISPLAYNAME_PREFIX}.DateInput`;
-DateInput.defaultProps = DATEINPUT_DEFAULT_PROPS;
+(DateInput as any).defaultProps = DATEINPUT_DEFAULT_PROPS;
 
 function getInitialTimezoneValue({ defaultTimezone, timezone }: DateInputProps) {
     if (timezone !== undefined) {

@@ -104,7 +104,7 @@ export class DatePickerCaption extends AbstractPureComponent<DatePickerCaptionPr
 
         return (
             <div className={this.props.classNames.caption}>
-                <div className={Classes.DATEPICKER_CAPTION} ref={ref => (this.containerElement = ref)}>
+                <div className={Classes.DATEPICKER_CAPTION} ref={ref => {this.containerElement = ref}}>
                     {orderedSelects}
                 </div>
                 <Divider />

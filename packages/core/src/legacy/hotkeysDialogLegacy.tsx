@@ -23,7 +23,7 @@
 
 import classNames from "classnames";
 import * as React from "react";
-import * as ReactDOM from "react-dom";
+import { createRoot, type Root } from "react-dom/client";
 
 import { Classes } from "../common";
 import { Dialog, DialogBody, type DialogProps, Hotkey, type HotkeyProps, Hotkeys } from "../components";
@@ -49,6 +49,7 @@ class HotkeysDialogLegacy {
     } as HotkeysDialogProps;
 
     private container: HTMLElement | null = null;
+    private root: Root | null = null;
 
     private hotkeysQueue = [] as HotkeyProps[][];
 
@@ -62,14 +63,18 @@ class HotkeysDialogLegacy {
         if (this.container == null) {
             this.container = this.getContainer();
         }
-        ReactDOM.render(this.renderComponent(), this.container);
+
+        this.root = createRoot(this.container);
+
+        this.root.render(this.renderComponent());
     }
 
     public unmount() {
-        if (this.container != null) {
-            ReactDOM.unmountComponentAtNode(this.container);
+        if (this.container != null && this.root != null) {
+            this.root.unmount();
             this.container.remove();
             this.container = null;
+            this.root = null;
         }
     }
 

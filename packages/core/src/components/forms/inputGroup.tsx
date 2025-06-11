@@ -117,8 +117,8 @@ export class InputGroup extends AbstractPureComponent<InputGroupProps, InputGrou
     private rightElement: HTMLElement | null = null;
 
     private refHandlers = {
-        leftElement: (ref: HTMLSpanElement | null) => (this.leftElement = ref),
-        rightElement: (ref: HTMLSpanElement | null) => (this.rightElement = ref),
+        leftElement: (ref: HTMLSpanElement | null) => {this.leftElement = ref},
+        rightElement: (ref: HTMLSpanElement | null) => {this.rightElement = ref},
     };
 
     public render() {

@@ -166,7 +166,7 @@ export class QueryList<T> extends AbstractComponent<QueryListProps<T>, QueryList
     private itemRefs = new Map<number, HTMLElement>();
 
     private refHandlers = {
-        itemsParent: (ref: HTMLElement | null) => (this.itemsParentRef = ref),
+        itemsParent: (ref: HTMLElement | null) => {this.itemsParentRef = ref},
     };
 
     /**

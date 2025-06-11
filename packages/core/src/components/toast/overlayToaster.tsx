@@ -16,7 +16,7 @@
 
 import classNames from "classnames";
 import * as React from "react";
-import * as ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 
 import { AbstractPureComponent, Classes, Position } from "../../common";
 import {
@@ -38,7 +38,7 @@ import type { ToastProps } from "./toastProps";
 
 export interface OverlayToasterState {
     toasts: ToastOptions[];
-    toastRefs: Record<string, React.RefObject<HTMLElement>>;
+    toastRefs: Record<string, React.RefObject<HTMLElement | null>>;
 }
 
 export type OverlayToasterCreateOptions = DOMMountOptions<OverlayToasterProps>;
@@ -76,15 +76,23 @@ export class OverlayToaster extends AbstractPureComponent<OverlayToasterProps, O
         }
         const containerElement = document.createElement("div");
         container.appendChild(containerElement);
-        // TODO(React 18): Replace deprecated ReactDOM methods. See: https://github.com/palantir/blueprint/issues/7166
-        // eslint-disable-next-line @typescript-eslint/no-deprecated
-        const toaster = ReactDOM.render<OverlayToasterProps>(
-            <OverlayToaster {...props} usePortal={false} />,
-            containerElement,
-        ) as OverlayToaster;
+
+        const root = createRoot(containerElement);
+
+        let toaster: OverlayToaster | null = null;
+
+        root.render(<OverlayToaster
+            {...props}
+            usePortal={false}
+            ref={ref => {
+                toaster = ref;
+            }}
+        />);
+
         if (toaster == null) {
             throw new Error(TOASTER_CREATE_NULL);
         }
+
         return toaster;
     }
 
@@ -102,18 +110,19 @@ export class OverlayToaster extends AbstractPureComponent<OverlayToasterProps, O
         }
 
         const container = options?.container ?? document.body;
-        // TODO(React 18): Replace deprecated ReactDOM methods. See: https://github.com/palantir/blueprint/issues/7166
-        // eslint-disable-next-line @typescript-eslint/no-deprecated
-        const domRenderer = options?.domRenderer ?? ReactDOM.render;
 
         const toasterComponentRoot = document.createElement("div");
         container.appendChild(toasterComponentRoot);
 
         return new Promise<Toaster>((resolve, reject) => {
             try {
-                // TODO(React 18): Replace deprecated ReactDOM methods. See: https://github.com/palantir/blueprint/issues/7166
-                // eslint-disable-next-line @typescript-eslint/no-deprecated
-                domRenderer(<OverlayToaster {...props} ref={handleRef} usePortal={false} />, toasterComponentRoot);
+                if (options?.domRenderer) {
+                    options.domRenderer(<OverlayToaster {...props} ref={handleRef} usePortal={false} />, toasterComponentRoot);
+                } else {
+                    const root = createRoot(container);
+
+                    root.render(<OverlayToaster {...props} ref={handleRef} usePortal={false} />)
+                }
             } catch (error) {
                 // Note that we're catching errors from the domRenderer function
                 // call, but not errors when rendering <OverlayToaster>, which
@@ -157,7 +166,7 @@ export class OverlayToaster extends AbstractPureComponent<OverlayToasterProps, O
     // auto-incrementing identifier for un-keyed toasts
     private toastId = 0;
 
-    private toastRefs: Record<string, React.RefObject<HTMLElement>> = {};
+    private toastRefs: Record<string, React.RefObject<HTMLElement | null>> = {};
 
     /** Compute a new collection of toast refs (usually after updating toasts) */
     private getToastRefs = (toasts: ToastOptions[]) => {

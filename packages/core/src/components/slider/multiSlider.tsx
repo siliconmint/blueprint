@@ -204,7 +204,7 @@ export class MultiSlider extends AbstractPureComponent<MultiSliderProps, SliderS
         );
         return (
             <div className={classes} onMouseDown={this.maybeHandleTrackClick} onTouchStart={this.maybeHandleTrackTouch}>
-                <div className={Classes.SLIDER_TRACK} ref={ref => (this.trackElement = ref)}>
+                <div className={Classes.SLIDER_TRACK} ref={ref => {this.trackElement = ref}}>
                     {this.renderTracks()}
                 </div>
                 <div className={Classes.SLIDER_AXIS}>{this.renderLabels()}</div>

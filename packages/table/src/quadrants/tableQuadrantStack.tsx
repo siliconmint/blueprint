@@ -473,7 +473,7 @@ export class TableQuadrantStack extends AbstractComponent<TableQuadrantStackProp
 
     private generateQuadrantRefHandlers(quadrantType: QuadrantType): QuadrantRefHandlers {
         const reducer = (agg: QuadrantRefHandlers, key: keyof QuadrantRefHandlers) => {
-            agg[key] = (ref: HTMLDivElement | null) => (this.quadrantRefs[quadrantType][key] = ref);
+            agg[key] = (ref: HTMLDivElement | null) => {this.quadrantRefs[quadrantType][key] = ref};
             return agg;
         };
         const refHandlers: Array<keyof QuadrantRefHandlers> = [

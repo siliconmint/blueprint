@@ -419,11 +419,11 @@ export class Popover<
 
             const clonedTarget: React.JSX.Element = React.cloneElement(childTarget, {
                 ...childTargetProps,
-                className: classNames(childTarget.props.className, targetModifierClasses),
+                className: classNames((childTarget as any).props.className, targetModifierClasses),
                 // force disable single Tooltip child when popover is open
-                disabled: isOpen && Utils.isElementOfType(childTarget, Tooltip) ? true : childTarget.props.disabled,
-                tabIndex: childTarget.props.tabIndex ?? targetTabIndex,
-            });
+                disabled: isOpen && Utils.isElementOfType(childTarget, Tooltip) ? true : (childTarget as any).props.disabled,
+                tabIndex: (childTarget as any).props.tabIndex ?? targetTabIndex,
+            } as any);
             const wrappedTarget = React.createElement(
                 targetTagName!,
                 {

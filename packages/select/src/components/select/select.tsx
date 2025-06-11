@@ -130,7 +130,7 @@ export class Select<T> extends AbstractPureComponent<SelectProps<T>, SelectState
         this.props.inputProps?.inputRef,
     );
 
-    private handleQueryListRef = (ref: QueryList<T> | null) => (this.queryList = ref);
+    private handleQueryListRef = (ref: QueryList<T> | null) => {this.queryList = ref};
 
     private listboxId = Utils.uniqueId("listbox");
 

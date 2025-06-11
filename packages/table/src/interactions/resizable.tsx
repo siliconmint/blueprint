@@ -116,14 +116,14 @@ export class Resizable extends AbstractPureComponent<ResizableProps, ResizeableS
 
     public render() {
         const child = React.Children.only(this.props.children) as React.ReactElement;
-        const style = { ...child.props.style, ...this.getStyle() };
+        const style = { ...(child as any).props.style, ...this.getStyle() };
 
         if (this.props.isResizable === false) {
-            return React.cloneElement(child, { style });
+            return React.cloneElement(child, { style } as any);
         }
 
         const resizeHandle = this.renderResizeHandle();
-        return React.cloneElement(child, { resizeHandle, style });
+        return React.cloneElement(child, { resizeHandle, style } as any);
     }
 
     private renderResizeHandle() {

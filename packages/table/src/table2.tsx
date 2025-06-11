@@ -221,20 +221,20 @@ export class Table2 extends AbstractComponent<Table2Props, TableState, TableSnap
     private resizeSensorDetach?: () => void;
 
     private refHandlers = {
-        cellContainer: (ref: HTMLElement | null) => (this.cellContainerElement = ref),
+        cellContainer: (ref: HTMLElement | null) => {this.cellContainerElement = ref},
         columnHeader: (ref: HTMLElement | null) => {
             if (ref != null) {
                 this.columnHeaderHeight = Math.max(ref.clientHeight, Grid.MIN_COLUMN_HEADER_HEIGHT);
             }
         },
-        quadrantStack: (ref: TableQuadrantStack) => (this.quadrantStackInstance = ref),
-        rootTable: (ref: HTMLElement | null) => (this.rootTableElement = ref),
+        quadrantStack: (ref: TableQuadrantStack) => {this.quadrantStackInstance = ref},
+        rootTable: (ref: HTMLElement | null) => {this.rootTableElement = ref},
         rowHeader: (ref: HTMLElement | null) => {
             if (ref != null) {
                 this.rowHeaderWidth = ref.clientWidth;
             }
         },
-        scrollContainer: (ref: HTMLElement | null) => (this.scrollContainerElement = ref),
+        scrollContainer: (ref: HTMLElement | null) => {this.scrollContainerElement = ref},
     };
 
     private cellContainerElement?: HTMLElement | null;

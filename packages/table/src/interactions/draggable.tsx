@@ -102,6 +102,6 @@ export class Draggable extends React.PureComponent<DraggableProps> {
  *
  * @see https://github.com/palantir/blueprint/issues/6248
  */
-function isValidTarget(refElement: React.RefObject<HTMLElement>["current"]): refElement is HTMLElement {
+function isValidTarget(refElement: React.RefObject<HTMLElement | null>["current"]): refElement is HTMLElement {
     return refElement != null && refElement instanceof HTMLElement;
 }

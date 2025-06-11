@@ -139,8 +139,8 @@ export class Documentation extends React.PureComponent<DocumentationProps, Docum
     private navElement: HTMLElement | null = null;
 
     private refHandlers = {
-        content: (ref: HTMLElement | null) => (this.contentElement = ref),
-        nav: (ref: HTMLElement | null) => (this.navElement = ref),
+        content: (ref: HTMLElement | null) => {this.contentElement = ref},
+        nav: (ref: HTMLElement | null) => {this.navElement = ref},
     };
 
     public constructor(props: DocumentationProps) {
